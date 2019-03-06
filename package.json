@@ -1,0 +1,13 @@
+{
+  "name": "techkafi-openshift-java",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "reveal-md slides.md --theme theme/puzzle.css",
+    "static": "reveal-md slides.md --theme theme/puzzle.css --static out"
+  },
+  "dependencies": {
+    "reveal-md": "^3.0.4"
+  }
+}
