@@ -491,7 +491,7 @@ pipeline {
 ```
 <!-- .element style="font-size: 1.18rem" -->
 
-Registry password is provided by Jenkins config file management.
+Registry credentials are configured in `settings.xml`.
 
 <!-- .element style="font-size: 80%;" -->
 </script></section><section  data-markdown><script type="text/template">
@@ -529,7 +529,7 @@ The `jenkins` service prevents auto-provisioning of a Jenkins instance in the cu
 </script></section><section  data-markdown><script type="text/template">
 <!-- .slide: class="text-left" -->
 
-puzzle/jib/Jenkinsfile
+puzzle/jib/Jenkinsfile ...
 <!-- .element style="margin-bottom: -1.5rem; margin-top: -2rem; color: #3B7BBE" --->
 ```groovy
 pipeline {
@@ -546,14 +546,32 @@ pipeline {
   stages {
     stage('Build App') {
       steps {
+        withMaven {
+          sh "mvn clean test"
+        }
+      }
+    }
+```
+</script></section><section  data-markdown><script type="text/template">
+<!-- .slide: class="text-left" -->
+
+... puzzle/jib/Jenkinsfile
+<!-- .element style="margin-bottom: -1.5rem; margin-top: -2rem; color: #3B7BBE" --->
+```groovy
+    stage('Build Image') {
+      steps {
         withMaven(mavenSettingsConfig: 'openshift-registry') {
-          sh "mvn clean compile jib:build"
+          sh "mvn jib:build"
         }
       }
     }
   }
 }
 ```
+
+`openshift-registry` refers to a `settings.xml` with registry credentials provided by Jenkins config file management.
+
+<!-- .element style="font-size: 80%" -->
 </script></section><section  data-markdown><script type="text/template">
 <!-- .slide: class="master02" -->
 
