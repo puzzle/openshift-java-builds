@@ -678,7 +678,7 @@ The `jenkins` service prevents auto-provisioning of a Jenkins instance in the cu
 </script></section><section  data-markdown><script type="text/template">
 <!-- .slide: class="text-left" -->
 
-puzzle/slave/Jenkinsfile
+puzzle/slave/Jenkinsfile ...
 <!-- .element style="margin-bottom: -1.5rem; margin-top: -2rem; color: #3B7BBE" --->
 ```groovy
 pipeline {
@@ -693,8 +693,22 @@ pipeline {
   stages {
     stage('Build App') {
       steps {
+        withMaven {
+          sh "mvn clean test"
+        }
+      }
+    }
+```
+</script></section><section  data-markdown><script type="text/template">
+<!-- .slide: class="text-left" -->
+
+... puzzle/slave/Jenkinsfile
+<!-- .element style="margin-bottom: -1.5rem; margin-top: -2rem; color: #3B7BBE" --->
+```groovy
+    stage('Build Image') {
+      steps {
         withMaven(mavenSettingsConfig: 'openshift-registry') {
-          sh "mvn clean compile jib:build"
+          sh "mvn jib:build"
         }
       }
     }
